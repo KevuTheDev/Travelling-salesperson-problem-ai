@@ -1,8 +1,18 @@
+"""
+Assignment #1
+
+Kevin He
+181803930 / hexx3930
+hexx3930@mylaurier.ca
+
+
+"""
+
 import pandas as pd
 from Utils import *
 from TSP import *
 
-DATASIZE = 9  # YOUR SIZE
+DATASIZE = 9  # YOUR SIZE and number of cities
 
 
 
@@ -18,21 +28,42 @@ print("=" * 30)
 print("Rows are source")
 print("Columns are destination")
 print_distance_matrix(distanceMatrix)
-#
-# TREE = Tree(distanceMatrix)
-# TREE.create_tree()
-# print(TREE.m_height, DATASIZE)
-
-
 print()
 
-tsp = TSP(distanceMatrix)
-# print(tsp.TSP_ASTAR(distanceMatrix, 0, len(distanceMatrix)))
+"""
+The Travelling Salesperson Problem (TSP)
 
-print("Pathfinding - Breath-First Search")
+The goal of this problem is to travel through every city at most once, and to be able to return back to the starting point.
+We will be using three different algorithms to analyze how they perform in this problem. 
+
+1) Breadth-First Search (BFS)
+2) Depth-First Search (DFS)
+3) A* Search
+
+To perform the search, the algorithm can only handle up to DATASIZE (num of cities) 
+
+
+
+"""
+tsp = TSP(distanceMatrix)
+"""
+Breadth-First Search (BFS)
+
+In this algorithm, BFS had a rough time performing. This took a long time due to how the algorithm worked.
+The algorithm works by starting at a root node, then check all its children nodes.
+We store each children node into a queue, and loop until we reach a node where they don't have any children (a leaf node)
+_which represents the completion of a path
+ 
+As you can see, this is not an optimal solution. The algorithm has to search from every node at every height of the tree 
+_before we find a solution.
+
+
+
+"""
+print("Pathfinding - Breadth-First Search")
 BFS_path, BFS_distance = tsp.breadth_first_search()
 print("Path:", BFS_path, "\nMinimum Distance:", BFS_distance)
-#draw_graph(BFS_path, citiesList, "Breath-First Search")
+#draw_graph(BFS_path, citiesList, "Breadth-First Search")
 #
 print()
 #
@@ -47,17 +78,3 @@ print("Pathfinding - A* Search")
 ASTAR_path, ASTAR_distance = tsp.a_star_search()
 print("Path:", ASTAR_path, "\nMinimum Distance:", ASTAR_distance)
 #draw_graph(ASTAR_path, citiesList, "A* Search")
-#
-print()
-#
-print("Pathfinding - Minimum Spanning Tree Search")
-MST_path, MST_distance = tsp.TSP_MST(0)
-print("Path:", MST_path, "\nMinimum Distance:", MST_distance)
-#draw_graph(MST_path, citiesList, "Minimum Spanning Tree Search")
-#
-print()
-
-print("Pathfinding - Brute Force Search")
-BFM_path, BFM_distance = tsp.TSP_BruteForce(0)
-print("Path:", BFM_path, "\nMinimum Distance:", BFM_distance)
-#draw_graph(BFM_path, citiesList, "Brute Force Search")

@@ -1,4 +1,3 @@
-from itertools import permutations
 from sys import maxsize as MAXSIZE
 from Tree import *
 from Utils import a_star_binary_search_insert, create_unvisited_list
@@ -34,79 +33,6 @@ class TSP:
         """
         print("Generating Tree...")
         self.m_tree = Tree(len(self.m_distanceMatrix))
-
-    def TSP_BruteForce(self, s):
-        if len(self.m_distanceMatrix) == 0:
-            return None, None
-
-        # store all vertex apart from source vertex
-        vertex = []
-        for i in range(len(self.m_distanceMatrix)):
-            if i != s:
-                vertex.append(i)
-
-        # store minimum weight Hamiltonian Cycle
-        min_path = MAXSIZE
-        next_permutation = permutations(vertex)
-        path = []
-
-        for i in next_permutation:
-
-            # store current Path weight(cost)
-            current_pathweight = 0
-
-            # compute current path weight
-            k = s
-            for j in i:
-                current_pathweight += self.m_distanceMatrix[k][j]
-                k = j
-            current_pathweight += self.m_distanceMatrix[k][s]
-
-            # update minimum
-            if min(min_path, current_pathweight) != min_path:
-                lpath = list(i)
-                path = [i for i in lpath]
-                min_path = min(min_path, current_pathweight)
-
-        path = list(path)
-        path.insert(s, 0)
-        path.append(s)
-        return path, min_path
-
-    def TSP_MST(self, s):
-        array = []
-        size = len(self.m_distanceMatrix)
-
-        if size == 0:
-            return None, None
-
-        unvisitedList = [i for i in range(size)]
-
-        unvisitedList.remove(s)
-        array.append(s)
-
-        currentNode = s
-        currentPathWeight = 0
-
-        while len(unvisitedList) != 0:
-            min_path = MAXSIZE
-            min_node = -1
-
-            for i in unvisitedList:
-                if min(min_path, self.m_distanceMatrix[currentNode][i]) != min_path:
-                    min_path = self.m_distanceMatrix[currentNode][i]
-                    min_node = i
-
-            currentNode = min_node
-            currentPathWeight += min_path
-
-            unvisitedList.remove(min_node)
-            array.append(min_node)
-
-        currentPathWeight += self.m_distanceMatrix[currentNode][s]
-        array.append(s)
-
-        return array, currentPathWeight
 
     def depth_first_search(self):
         """
